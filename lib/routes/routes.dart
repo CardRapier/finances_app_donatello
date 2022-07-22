@@ -1,5 +1,5 @@
 import 'package:finances_app_donatello/modules/auth/views/auth_view.dart';
-import 'package:finances_app_donatello/modules/home/home_view.dart';
+import 'package:finances_app_donatello/modules/home/views/home_view.dart';
 import 'package:finances_app_donatello/routes/routes_constants.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';

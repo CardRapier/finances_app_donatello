@@ -1,4 +1,5 @@
 import 'package:finances_app_donatello/modules/auth/providers/auth_provider.dart';
+import 'package:finances_app_donatello/modules/home/provider/home_provider.dart';
 import 'package:finances_app_donatello/routes/routes.dart';
 import 'package:finances_app_donatello/utils/theme_utils.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
             ChangeNotifierProvider<AuthProvider>(create: (_) => AuthProvider()),
+        ChangeNotifierProvider<HomeProvider>(create: (_) => HomeProvider()),
           ],
           child: Builder(
         builder: (context) {
