@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "915208865566",
+    "project_id": "test-apps-c12a1",
+    "storage_bucket": "test-apps-c12a1.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:915208865566:android:1ed569d5859a8bdb71ab0f",
+        "android_client_info": {
+          "package_name": "com.cardrapier.finances_donatello"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "915208865566-c2o59m03o6ermda7spjkpvubdluvvgde.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAOQxWacSLQJGGliFGBWgmsaKHDrFUR1SQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "915208865566-c2o59m03o6ermda7spjkpvubdluvvgde.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
