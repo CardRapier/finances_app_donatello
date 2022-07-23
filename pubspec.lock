@@ -78,6 +78,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.5"
+  dart_math:
+    dependency: "direct main"
+    description:
+      name: dart_math
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.0.9+4"
   desktop_webview_auth:
     dependency: transitive
     description:
@@ -214,13 +221,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_speed_dial:
-    dependency: "direct main"
-    description:
-      name: flutter_speed_dial
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "6.0.0"
   flutter_svg:
     dependency: "direct main"
     description:

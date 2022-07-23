@@ -15,7 +15,7 @@ class GenericButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: active ? onPressed : null,
+      onPressed: active && !loading ? onPressed : null,
       style: TextButton.styleFrom(
           shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(30),

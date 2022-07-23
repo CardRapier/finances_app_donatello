@@ -1,4 +1,4 @@
-import 'package:finances_app_donatello/utils/color_constants.dart';
+import 'package:finances_app_donatello/utils/constants/color_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

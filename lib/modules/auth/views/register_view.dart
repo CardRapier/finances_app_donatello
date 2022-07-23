@@ -10,55 +10,65 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:reactive_forms/reactive_forms.dart';
 
-class AuthView extends StatelessWidget {
-  late BuildContext globalContext;
-  late AuthProvider authenticationInfo;
+class RegisterView extends StatelessWidget {
+  late AuthProvider authInfo;
   late Size size;
-  AuthView({Key? key}) : super(key: key);
+  late BuildContext globalContext;
+  RegisterView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    globalContext = context;
-    authenticationInfo = Provider.of<AuthProvider>(context);
+    authInfo = Provider.of<AuthProvider>(context);
     size = MediaQuery.of(context).size;
+    globalContext = context;
+
     return Scaffold(
-      body: SingleChildScrollView(
-        child: SafeArea(child: logIn()),
-      ),
-    );
-    ;
+        body: SingleChildScrollView(
+      child: SafeArea(child: register()),
+    ));
   }
 
-  Widget logIn() {
+  Widget register() {
     return Padding(
       padding: const EdgeInsets.all(24),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         SvgPicture.asset(
-          AuthConstants.logInImage,
+          AuthConstants.registerImage,
           width: size.width,
-          height: size.height * 0.5,
+          height: size.height * 0.4,
         ),
-        logInTitle(),
+        registerTitle(),
         gapH12,
-        logInComponents(),
+        registerComponents(),
       ]),
     );
   }
 
-  Widget logInTitle() {
+  Widget registerTitle() {
     return const Text(
-      "Login",
+      "Sign Up",
       style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
     );
   }
 
-  Widget logInComponents() {
+  Widget registerComponents() {
     return Center(
       child: ReactiveForm(
-        formGroup: authenticationInfo.formLogin,
+        formGroup: authInfo.formRegister,
         child: SizedBox(
           width: size.width * 0.9,
           child: Column(children: [
+            ReactiveTextField(
+              formControlName: 'name',
+              decoration: const InputDecoration(
+                hintText: "Name",
+                prefixIcon: Icon(Icons.person_outline_rounded),
+              ),
+              validationMessages: (control) => {
+                'required': AuthConstants.nameRequired,
+              },
+            ),
+            gapH12,
             ReactiveTextField(
               formControlName: 'email',
               decoration: const InputDecoration(
@@ -84,45 +94,48 @@ class AuthView extends StatelessWidget {
               },
             ),
             gapH12,
-            logInOptions()
+            ReactiveTextField(
+              formControlName: 'passwordConfirmation',
+              obscureText: true,
+              decoration: const InputDecoration(
+                hintText: "Password Confirmation",
+                prefixIcon: Icon(Icons.password_rounded),
+              ),
+              validationMessages: (control) => {
+                'mustMatch': AuthConstants.passwordMustMatch,
+              },
+            ),
+            gapH12,
+            registerOptions()
           ]),
         ),
       ),
     );
   }
 
-  Column logInOptions() {
+  Column registerOptions() {
     return Column(
       children: [
-        Container(
-          alignment: Alignment.centerRight,
-          child: Padding(
-            padding: const EdgeInsets.only(right: 32),
-            child: GestureDetector(
-              child: Text('Forgot password?',
-                  style: TextStyle(color: ColorConstants.primaryColor)),
-              onTap: () {},
-            ),
-          ),
-        ),
         gapH12,
         ReactiveFormConsumer(
           builder: (_, form, index) => GenericButton(
-              text: 'Login',
-              loading: authenticationInfo.loading,
+              text: 'Register',
+              loading: authInfo.loading,
               active: form.valid,
               onPressed: () async {
-                bool result = await authenticationInfo.signIn();
-                if(result) GoRouter.of(globalContext).goNamed(RoutesConstants.home);
+                bool result = await authInfo.signUp();
+                if (result) {
+                  GoRouter.of(globalContext).goNamed(RoutesConstants.home);
+                }
               }),
         ),
         gapH12,
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('new to finances? '),
+            const Text('Join us before? '),
             GestureDetector(
-              child: Text('Sign Up',
+              child: Text('Log In',
                   style: TextStyle(color: ColorConstants.primaryColor)),
               onTap: () =>
                   GoRouter.of(globalContext).goNamed(RoutesConstants.register),

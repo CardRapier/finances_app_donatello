@@ -1,12 +1,13 @@
 import 'package:finances_app_donatello/models/expense.dart';
 import 'package:finances_app_donatello/modules/auth/providers/auth_provider.dart';
+import 'package:finances_app_donatello/modules/global/buttons/action_button.dart';
+import 'package:finances_app_donatello/modules/global/buttons/expandable_fab.dart';
 import 'package:finances_app_donatello/modules/global/layout.dart';
 import 'package:finances_app_donatello/modules/home/provider/home_provider.dart';
 import 'package:finances_app_donatello/routes/routes_constants.dart';
-import 'package:finances_app_donatello/utils/color_constants.dart';
+import 'package:finances_app_donatello/utils/constants/color_constants.dart';
 import 'package:finances_app_donatello/utils/date_methods.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 import 'package:flutterfire_ui/firestore.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
@@ -16,6 +17,8 @@ class HomeView extends StatelessWidget {
   late HomeProvider homeInfo;
   late Size size;
   HomeView({Key? key}) : super(key: key);
+  final GlobalKey<ExpandableFabState> myWidgetState =
+      GlobalKey<ExpandableFabState>();
 
   @override
   Widget build(BuildContext context) {
@@ -24,6 +27,7 @@ class HomeView extends StatelessWidget {
     authenticationInfo = Provider.of<AuthProvider>(context);
 
     return Layout(
+      menuKey: myWidgetState,
       options: homeOptions(context),
       child: SafeArea(
         child: Center(
@@ -40,31 +44,34 @@ class HomeView extends StatelessWidget {
     );
   }
 
-  List<SpeedDialChild> homeOptions(BuildContext context) {
+  List<Widget> homeOptions(BuildContext context) {
     return [
-      SpeedDialChild(
-        child: const Icon(Icons.add_outlined),
-        onTap: () {
+      ActionButton(
+        onPressed: () {
           homeInfo.creating = true;
+          homeInfo.resetForm();
+          myWidgetState.currentState?.toggle();
           GoRouter.of(context).pushNamed(RoutesConstants.addExpense);
         },
+        icon: const Icon(Icons.add_rounded),
       ),
-      SpeedDialChild(
-        child: const Icon(Icons.outbond_rounded),
-        onTap: () async {
+      ActionButton(
+        onPressed: () async {
           await authenticationInfo.signOut();
+          myWidgetState.currentState?.toggle();
           GoRouter.of(context).goNamed(RoutesConstants.login);
         },
+        icon: const Icon(Icons.output_rounded),
       ),
     ];
   }
 
   Widget getExpenses() {
     return FirestoreQueryBuilder<Expense>(
-      query: homeInfo.financesCollection.orderBy('date', descending: true),
+      query: homeInfo.getFinancesCollection().orderBy('date', descending: true),
       builder: (context, snapshot, _) {
         if (snapshot.isFetching) {
-          return const CircularProgressIndicator();
+          return const Center(child: CircularProgressIndicator());
         }
         if (snapshot.hasError) {
           return Text('error ${snapshot.error}');
