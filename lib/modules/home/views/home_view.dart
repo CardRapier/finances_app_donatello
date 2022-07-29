@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:finances_app_donatello/models/expense.dart';
 import 'package:finances_app_donatello/modules/auth/providers/auth_provider.dart';
 import 'package:finances_app_donatello/modules/global/buttons/action_button.dart';
@@ -89,29 +90,38 @@ class HomeView extends StatelessWidget {
             }
             final expense = snapshot.docs[index].data();
             final expenseRef = snapshot.docs[index].reference;
+            final colorExpense = expense.isExpense
+                ? ColorConstants.primaryRed
+                : ColorConstants.primaryGreen;
+            final alignExpense =
+                expense.isExpense ? TextAlign.start : TextAlign.end;
             return ListTile(
               onTap: () {
                 homeInfo.creating = false;
                 homeInfo.loadExpense(expense, expenseRef);
                 GoRouter.of(context).pushNamed(RoutesConstants.addExpense);
               },
-              title: Text(expense.value.toString()),
+              title: Text(textAlign: alignExpense, expense.value.toString()),
               subtitle: Text(
-                  '${expense.type} - ${DateMethods.formatDate(expense.date)}'),
-              trailing: Column(
-                children: [
-                  IconButton(
-                      onPressed: () => expenseRef.delete(),
-                      icon: Icon(
-                        Icons.delete_forever_rounded,
-                        color: ColorConstants.primaryRed,
-                      )),
-                ],
-              ),
+                  textAlign: alignExpense,
+                  '${expense.type} - ${DateMethods.formatDate(expense.date)}',
+                  style: TextStyle(color: colorExpense)),
+              trailing: tileOptions(expenseRef, expense.isExpense),
             );
           },
         );
       },
+    );
+  }
+
+  IconButton tileOptions(
+      DocumentReference<Expense> expenseRef, bool isVisible) {
+    return IconButton(
+      onPressed: () => expenseRef.delete(),
+      icon: Icon(
+        Icons.delete_forever_rounded,
+        color: ColorConstants.primaryRed,
+      ),
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:finances_app_donatello/modules/auth/views/auth_view.dart';
 import 'package:finances_app_donatello/modules/auth/views/register_view.dart';
+import 'package:finances_app_donatello/modules/debts/views/debts_view.dart';
 import 'package:finances_app_donatello/modules/home/views/add_expense.dart';
 import 'package:finances_app_donatello/modules/home/views/home_view.dart';
 import 'package:finances_app_donatello/routes/routes_constants.dart';
@@ -9,41 +10,49 @@ import 'package:go_router/go_router.dart';
 
 class Routes {
   static final GoRouter router = GoRouter(
-      initialLocation: '/',
+      initialLocation: RoutesConstants.home,
       routes: <GoRoute>[
         GoRoute(
           name: RoutesConstants.home,
-          path: '/',
+          path: RoutesConstants.home,
           pageBuilder: (BuildContext context, GoRouterState state) =>
               customTransition(childWidget: HomeView()),
         ),
         GoRoute(
           name: RoutesConstants.login,
-          path: '/login',
+          path: RoutesConstants.login,
           pageBuilder: (BuildContext context, GoRouterState state) =>
               customTransition(childWidget: AuthView()),
         ),
         GoRoute(
           name: RoutesConstants.register,
-          path: '/register',
+          path: RoutesConstants.register,
           pageBuilder: (BuildContext context, GoRouterState state) =>
               customTransition(childWidget: RegisterView()),
         ),
         GoRoute(
           name: RoutesConstants.addExpense,
-          path: '/add-expense',
+          path: RoutesConstants.addExpense,
           pageBuilder: (BuildContext context, GoRouterState state) =>
               customTransition(childWidget: AddExpense()),
+        ),
+        GoRoute(
+          name: RoutesConstants.debts,
+          path: RoutesConstants.debts,
+          pageBuilder: (BuildContext context, GoRouterState state) =>
+              customTransition(childWidget: DebtsView()),
         ),
       ],
       redirect: (state) {
         bool isAuthenticating =
-            state.subloc == '/login' || state.subloc == '/register';
+            state.subloc == RoutesConstants.login ||
+            state.subloc == RoutesConstants.register;
+
         bool isLoggedIn =
             FirebaseAuth.instance.currentUser != null ? true : false;
 
         if (!isLoggedIn) {
-          return isAuthenticating ? null : '/login';
+          return isAuthenticating ? null : RoutesConstants.login;
         }
 
         return null;

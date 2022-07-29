@@ -1,3 +1,4 @@
+import 'package:finances_app_donatello/routes/routes_constants.dart';
 import 'package:finances_app_donatello/utils/constants/color_constants.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -33,15 +34,15 @@ class NavBar extends StatelessWidget {
         child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
           navBarButton(
               icon: Icons.home_rounded,
-              selected: router.location == '/',
-              onTap: () => context.go('/')),
+              selected: router.location == RoutesConstants.home,
+              onTap: () => context.goNamed(RoutesConstants.home)),
           const SizedBox(
             width: 10,
           ),
           navBarButton(
               icon: Icons.attach_money_rounded,
-              selected: router.location == '/random',
-              onTap: () => context.go('/random')),
+              selected: router.location == RoutesConstants.debts,
+              onTap: () => context.goNamed(RoutesConstants.debts)),
         ]),
       ),
     );

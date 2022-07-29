@@ -138,7 +138,7 @@ class RegisterView extends StatelessWidget {
               child: Text('Log In',
                   style: TextStyle(color: ColorConstants.primaryColor)),
               onTap: () =>
-                  GoRouter.of(globalContext).goNamed(RoutesConstants.register),
+                  GoRouter.of(globalContext).goNamed(RoutesConstants.login),
             )
           ],
         ),
